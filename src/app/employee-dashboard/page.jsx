@@ -51,7 +51,7 @@ function page() {
 
     useEffect(() => {
       if (searchParams.get('showMessage') === 'true') {
-        showSuccessToast("login successful!");
+        showSuccessToast("Login successful!");
       }
       clearQueryParams();
     }, [searchParams,router]);
@@ -130,7 +130,7 @@ function page() {
             const attendances = res.data;
             const formatedRows = attendances.map((attendace)=>({
                 timestamp:`${getFormattedDate(attendace.date)} ${attendace.time}`,
-                status:attendace.status
+                status:attendace.status.charAt(0).toUpperCase() + attendace.status.slice(1) 
             }))
 
             const isTodayMarked = attendances.some(attendance => 
@@ -164,19 +164,32 @@ function page() {
         { id: 'timestamp', label: 'Timestamp' },
         { id: 'status', label: 'Status' },
       ];
+
+      
+    const disconnect = ()=>{
+      router.push('/employee');
+   }
+     
     
 
   return (
     <div className='w-full min-h-screen bg-[#b9ccff] p-4'>
     {isLoading && <Loader />}
-    <div className='w-full min-h-[100%] bg-white rounded-[4px]'>
+    <div className='w-full min-h-screen bg-white rounded-[4px]'>
         {/* Header area */}
-        <div className='w-full h-[20%] p-10'>
+        <div className='w-full h-[10%] p-10 flex justify-between'>
             <h1 className='text-2xl uppercase text-black font-bold'>Employee Dashboard</h1>
+            <button
+                onClick={disconnect}
+                type="button" 
+                className="block font-semibold text-black border-2 shadow-xl border-blue-700   focus:ring-4 focus:outline-none focus:ring-blue-300  rounded-lg text-sm px-5 py-2.5 text-center "
+              >
+                Disconnect
+            </button>
         </div>
         {/* Sub Header area */}
         <div className='w-full h-[50px] p-10 flex items-center justify-between'>
-            <h1 className='text-xl capitalize text-black font-bold'>Mark Attendance</h1>
+            <h1 className='text-[17px] capitalize text-black font-bold'>Mark Attendance</h1>
         </div> 
         <div className='w-full h-[230px] pl-10'>
             <div className='w-[200px] h-full bg-white shadow-md rounded-xl border-2  '>
@@ -212,8 +225,11 @@ function page() {
                 </div>
             </div>
         </div>
+        <div className='w-full p-10 flex items-center justify-between'>
+            <h1 className='text-[17px] capitalize text-black font-bold'>Attendance Verification</h1>
+        </div> 
        {/* Organization details */}
-       <div className='w-full p-10 flex items-center h-full'>
+       <div className='w-full pl-10 pr-10 pb-10 flex items-center min-h-[100%] overflow-x-auto '>
            <Table tableColumns={TableColumns} tanleRows={rows} />
        </div>
    </div>

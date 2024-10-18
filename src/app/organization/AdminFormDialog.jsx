@@ -3,10 +3,11 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { REGEX_WALLET_ADDRESS } from '../constants/regex';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
-  walletAddress: Yup.string().required('Wallet Address is required'),
+  walletAddress: Yup.string().required('Wallet Address is required').matches(REGEX_WALLET_ADDRESS,'Invalid wallet address'),
   email: Yup.string().email('Invalid email').required('Email is required'),
   contactNumber: Yup.string().matches(/^\d{10}$/, 'Contact Number must be 10 digits').required('Contact Number is required'),
 });

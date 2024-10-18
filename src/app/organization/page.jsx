@@ -30,7 +30,6 @@ const DropdownMenu = ({ isOpen, onClose, onAddAdmin, onViewOrganization }) => {
       <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
         <div className="py-1">
           <button onClick={onAddAdmin} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Add Admin</button>
-          {/* <button onClick={onViewOrganization} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">View Organization</button> */}
         </div>
       </div>
     );
@@ -70,7 +69,7 @@ export default function Organization() {
    
     useEffect(() => {
       if (searchParams.get('showMessage') === 'true') {
-        showSuccessToast("login successful!");
+        showSuccessToast("Login successful!");
       }
       clearQueryParams();
     }, [searchParams,router]);
@@ -201,13 +200,13 @@ export default function Organization() {
 
     // Add organization admin
     const handleSubmitAdmin = async (values) =>{
-      // Ensure that the contract is available
-      if (!contract) {
-        showErrorToast("Blockchain connection not available. Cannot add Admin.");
-        return;
-      }
-
+      
       try{
+        // Ensure that the contract is available
+        if (!contract) {
+          showErrorToast("Blockchain connection not available. Cannot add Admin.");
+          return;
+        }
         // Add Admin to database
         const res = await addOrganizationAdmin(orgId,values)
         const adminId = res.data._id;
@@ -236,7 +235,7 @@ export default function Organization() {
             // Rollback admin if blockchain transaction fails
             await rollBackOrganizationAdmin(adminId);
             showErrorToast("Failed to add organization admin to blockchain.");
-            showErrorToast(getRpcError(blockchainError));
+            // showErrorToast(getRpcError(blockchainError));
           }  
          setOpenDialogTwo(false);
      }catch(dbError){
@@ -246,6 +245,12 @@ export default function Organization() {
       setIsLoading(false);
      }
     }
+
+
+    const disconnect = ()=>{
+       router.push('/product-owner');
+    }
+      
     
 
     const handleViewOrganization = (row) => {
@@ -255,12 +260,19 @@ export default function Organization() {
 
   
     return (
-        <div className='w-full h-screen bg-[#b9ccff] p-4'>
+        <div className='w-full min-h-screen bg-[#b9ccff] p-4'>
           {isLoading && <Loader />}
-            <div className='w-full min-h-[100%] bg-white rounded-[4px]'>
+            <div className='w-full min-h-screen bg-white rounded-[4px]'>
                 {/* Header area */}
-                <div className='w-full h-[20%] p-10'>
+                <div className='w-full h-[20%] p-10 flex justify-between'>
                     <h1 className='text-2xl uppercase text-black font-bold'>Organization Management Dashboard</h1>
+                    <button
+                        onClick={disconnect}
+                        type="button" 
+                        className="block text-black border-2 shadow-xl border-blue-700   focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+                    >
+                              Disconnect
+                    </button>
                 </div>
                 {/* Sub Header area */}
                 <div className='w-full h-[50px] p-10 flex items-center justify-between'>
@@ -274,7 +286,7 @@ export default function Organization() {
                     </button>
                 </div>
                 {/* Organization details */}
-                <div className='w-full p-10 flex items-center h-full'>
+                <div className='w-full p-10 flex items-center min-h-[100%] overflow-x-auto '>
                     <Table tableColumns={TableColumns} tanleRows={rows} />
                 </div>
             </div>
