@@ -25,7 +25,6 @@ function Page() {
             showErrorToast("Web3 not initialized. Please make sure MetaMask is installed.");
             return;
         }
-
         try {
             await window.ethereum.request({ method: 'eth_requestAccounts' });
             const accounts = await web3.eth.getAccounts();
@@ -36,11 +35,12 @@ function Page() {
         }
     }
 
+    // Function to authenticate the user using their Ethereum account
     const authenticate = async (account) => {
       try {
         setIsLoading(true);
         const res = await getNonce(account);
-        const { message, tempToken } = res.data;  
+        const { message, tempToken } = res.data;
         const signature = await web3.eth.personal.sign(message, account, '');  
         const reqBody = {
           signature: signature
