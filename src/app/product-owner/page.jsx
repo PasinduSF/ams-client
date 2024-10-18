@@ -55,7 +55,6 @@ function Page() {
       }
     };
     
-
     return (
         <div className='w-full h-screen bg-white items-center justify-center flex'>
             {isLoading && <Loader />}
