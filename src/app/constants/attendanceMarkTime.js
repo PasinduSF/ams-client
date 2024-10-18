@@ -1,0 +1,6 @@
+const ATTENDANCE_START_TIME = "08:40:00";
+const ATTENDANCE_END_TIME = "08:40:59";
+const ON_TIME = "on time";
+const LATE = "late";
+
+export { ATTENDANCE_START_TIME, ATTENDANCE_END_TIME, ON_TIME, LATE };
