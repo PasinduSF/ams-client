@@ -36,11 +36,6 @@
 				"internalType": "bytes32",
 				"name": "_orgId",
 				"type": "bytes32"
-			},
-			{
-				"internalType": "string",
-				"name": "_adminName",
-				"type": "string"
 			}
 		],
 		"name": "addAdmin",
@@ -49,11 +44,6 @@
 				"internalType": "bytes32",
 				"name": "",
 				"type": "bytes32"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
 			}
 		],
 		"stateMutability": "nonpayable",
@@ -70,11 +60,6 @@
 				"internalType": "bytes32",
 				"name": "_adminId",
 				"type": "bytes32"
-			},
-			{
-				"internalType": "string",
-				"name": "_empName",
-				"type": "string"
 			}
 		],
 		"name": "addEmployee",
@@ -83,11 +68,43 @@
 				"internalType": "bytes32",
 				"name": "",
 				"type": "bytes32"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
 			},
 			{
-				"internalType": "string",
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "grantRole",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_empAddress",
+				"type": "address"
+			}
+		],
+		"name": "markAttendance",
+		"outputs": [
+			{
+				"internalType": "uint256",
 				"name": "",
-				"type": "string"
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "nonpayable",
@@ -156,11 +173,6 @@
 	{
 		"inputs": [
 			{
-				"internalType": "string",
-				"name": "_orgName",
-				"type": "string"
-			},
-			{
 				"internalType": "bytes32",
 				"name": "_orgId",
 				"type": "bytes32"
@@ -172,11 +184,6 @@
 				"internalType": "bytes32",
 				"name": "",
 				"type": "bytes32"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
 			}
 		],
 		"stateMutability": "nonpayable",
@@ -200,37 +207,6 @@
 		],
 		"name": "EmployeeAdded",
 		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes32",
-				"name": "role",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "grantRole",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_empAddress",
-				"type": "address"
-			}
-		],
-		"name": "markAttendance",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -439,6 +415,30 @@
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"name": "checkAttendance",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "empId",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "date",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "DEFAULT_ADMIN_ROLE",
 		"outputs": [
@@ -465,6 +465,37 @@
 				"internalType": "bytes32",
 				"name": "",
 				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_empAddress",
+				"type": "address"
+			}
+		],
+		"name": "getAttendance",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "bytes32",
+						"name": "empId",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint256",
+						"name": "date",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct AttendanceManagementSystem.Attendance",
+				"name": "",
+				"type": "tuple"
 			}
 		],
 		"stateMutability": "view",

@@ -5,7 +5,7 @@ const getContractInstance = async () => {
     await window.ethereum.request({ method: "eth_requestAccounts" });
     const web3 = new Web3(window.ethereum);
     // console.log("ethnet", await web3.eth.net.getId());
-    const contractAddress = "0xb0a5d320172d6e54862b64934D06b9724AE78493";
+    const contractAddress = "0x8518a5EfE83Bf2901Cf94D8877D7294D262eFF80";
     const acc = new web3.eth.Contract(amsABI, contractAddress);
     // console.log("acc", acc.defaultChain);
     // console.log("acc", acc);

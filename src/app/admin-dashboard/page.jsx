@@ -120,7 +120,6 @@ export default function Organization() {
       
       const empId = res.data._id;
       const empWallet = res.data.walletAddress;
-      const empName = res.data.name;  
       const wallet = await web3.eth.getAccounts();
 
       const bytes32AdminId = web3.utils.soliditySha3(
@@ -129,7 +128,7 @@ export default function Organization() {
        // Add admin to blockchain
        try{
         setIsLoading(true);
-        const tx = await contract.methods.addEmployee(empWallet,bytes32AdminId,empName);
+        const tx = await contract.methods.addEmployee(empWallet,bytes32AdminId);
         const estimatedGas = await tx.estimateGas({ from: wallet[0] });
         const gasWithBuffer = BigInt(estimatedGas) * BigInt(120) / BigInt(100);
         const gasHex = web3.utils.toHex(gasWithBuffer);

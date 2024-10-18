@@ -46,11 +46,8 @@ export default function Organization() {
     const searchParams = useSearchParams();
     const [rows,setRows] = useState([]);
     const [orgId,setOrgID] = useState(null);
-
-     // Web3 provider.
-   const [web3, setWeb3] = useState(null);
-   // Contract instance.
-   const [contract, setContract] = useState(null);
+    const [web3, setWeb3] = useState(null);
+    const [contract, setContract] = useState(null);
 
    // Initialize Web3 and the contract when the component mounts.
    useEffect(() => {
@@ -167,7 +164,7 @@ export default function Organization() {
         // Add organization to blockchain
           try {
             setIsLoading(true);
-            const tx = await contract.methods.createOrganization(orgName, bytes32OrgId);
+            const tx = await contract.methods.createOrganization(bytes32OrgId);
             const estimatedGas = await tx.estimateGas({ from: wallet[0] });
             const gasWithBuffer = BigInt(estimatedGas) * BigInt(120) / BigInt(100); 
             const gasHex = web3.utils.toHex(gasWithBuffer);
@@ -187,6 +184,7 @@ export default function Organization() {
             await rollBackOrganization(orgId);  
             showErrorToast("Failed to add organization to blockchain.");      
             showErrorToast(getRpcError(blockchainError));
+            console.error(blockchainError);
           }
       } catch (dbError) {
         showErrorToast(getServerError(dbError));
@@ -210,15 +208,14 @@ export default function Organization() {
         // Add Admin to database
         const res = await addOrganizationAdmin(orgId,values)
         const adminId = res.data._id;
-        const adminWallet = res.data.walletAddress;
-        const adminName = res.data.name;  
+        const adminWallet = res.data.walletAddress; 
         const wallet = await web3.eth.getAccounts();
         const bytes32OrgId = getBinaryAddress(orgId);
 
         // Add admin to blockchain
           try{
             setIsLoading(true);
-            const tx = await contract.methods.addAdmin(adminWallet,bytes32OrgId,adminName);
+            const tx = await contract.methods.addAdmin(adminWallet,bytes32OrgId);
             const estimatedGas = await tx.estimateGas({ from: wallet[0] });
             const gasWithBuffer = BigInt(estimatedGas) * BigInt(120) / BigInt(100);
             const gasHex = web3.utils.toHex(gasWithBuffer);
